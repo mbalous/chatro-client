@@ -31,7 +31,7 @@ namespace ChatroClient.ViewModels
         {
             this._window = window;
             this._window.Loaded +=
-                delegate(object sender, RoutedEventArgs args)
+                (sender, args) =>
                 {
                     this.Tabs.First().TabContent += @"Use command /name ""nickname"" to change your nickname." +
                                                     Environment.NewLine;
@@ -77,9 +77,9 @@ namespace ChatroClient.ViewModels
                     }
                 });
             this._hubProxy.On("NewBroadcast", delegate(dynamic message, dynamic userName)
-                {
-                    ReceiveBroadcast(message, userName);
-                });
+            {
+                ReceiveBroadcast(message, userName);
+            });
 
             this._hubProxy.On("NewMessage", delegate (dynamic message, dynamic userName)
             {
@@ -161,13 +161,13 @@ namespace ChatroClient.ViewModels
                                         if (task.Result == LoginResult.Success)
                                         {
                                             this.Tabs.First().TabContent +=
-               $"{DateTime.Now.ToShortTimeString()}: Login successfull.";
+               $"{DateTime.Now.ToShortTimeString()}: Login successfull. {Environment.NewLine}";
 
                                         }
                                         else
                                         {
                                             this.Tabs.First().TabContent +=
-               $"{DateTime.Now.ToShortTimeString()}: Login failed.";
+               $"{DateTime.Now.ToShortTimeString()}: Login failed. {Environment.NewLine}";
                                         }
                                     });
                         }
