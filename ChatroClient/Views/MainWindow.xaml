@@ -1,0 +1,39 @@
+﻿<Window x:Class="ChatroClient.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatroClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="ListBoxContacts" Grid.Row="0" Grid.Column="1" />
+        <TextBox x:Name="TextBoxInput" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" FontSize="18">
+            <UIElement.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding SubmitInput}"
+                            CommandParameter="{Binding ElementName=TextBoxInput}" />
+                <KeyBinding Key="Up" Command="{Binding PrevInput}"
+                            CommandParameter="{Binding ElementName=TextBoxInput}" />
+            </UIElement.InputBindings>
+        </TextBox>
+        <Button x:Name="ButtonSubmit" Content="SUBMIT" Margin="5" Grid.Row="1" Grid.Column="1"
+                Command="{Binding SubmitInput}" CommandParameter="{Binding ElementName=TextBoxInput}" />
+        <TabControl x:Name="TabControlChatWindows" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Tabs}"
+                    Background="{x:Null}" FontSize="12">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderedContentControl.Header" Value="{Binding TabHeader}" />
+                    <Setter Property="ContentControl.Content" Value="{Binding TabContent}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </TabControl>
+    </Grid>
+</Window>
