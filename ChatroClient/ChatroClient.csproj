@@ -68,11 +68,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\ActionCommand.cs" />
-    <Compile Include="src\ChatController.cs" />
-    <Compile Include="src\ChatCommands\ChangeName.cs" />
+    <Compile Include="src\AttributeHelper.cs" />
     <Compile Include="src\ChatCommands\IChatCommand.cs" />
-    <Compile Include="src\ChatroTabItem.cs" />
-    <Compile Include="src\ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="src\ChatCommands\Login.cs" />
+    <Compile Include="src\ChatCommands\SendBroadcast.cs" />
+    <Compile Include="src\ChatController.cs" />
+    <Compile Include="src\ChatCommands\ChatCommand.cs" />
+    <Compile Include="src\CustomTabItem.cs" />
+    <Compile Include="src\Message.cs" />
+    <Compile Include="src\SignalRController.cs" />
     <Page Include="src\Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +85,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\User.cs" />
+    <Compile Include="src\Views\LoginResult.cs" />
     <Compile Include="src\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

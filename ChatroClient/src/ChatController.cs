@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using ChatroClient.ChatCommands;
+using ChatroClient.Views;
 
 namespace ChatroClient
 {
@@ -8,22 +12,78 @@ namespace ChatroClient
     {
         private readonly List<IChatCommand> _chatCommands = new List<IChatCommand>();
 
-        public ChatController()
+        public SignalRController SignalRController { get; set; }
+
+        internal ChatController()
         {
-            RegisterCommand(new ChangeName());
+            this.SignalRController = new SignalRController();
+            this.SignalRController.ConnectionSuccessful += (sender, args) =>
+            {
+                Login loginCommand = new Login(this.SignalRController.LoginPointer);
+                loginCommand.LoginCompleted += LoginCommandOnLoginCompleted;
+                RegisterCommands(loginCommand);
+            };
+
+
+            this.SignalRController.NewMessageHandler += SignalRControllerOnNewMessageHandler;
+            this.SignalRController.NewBroadcastHandler += SignalRControllerOnNewBroadcastHandler;
         }
 
-        private void RegisterCommand(IChatCommand cmd)
+        private void LoginCommandOnLoginCompleted(object sender, LoginResult loginResult)
         {
-            if (cmd == null)
+            // TODO: Complete login implementation
+            if (loginResult == LoginResult.Success)
             {
-                throw new ArgumentNullException(nameof(cmd));
+                Debug.WriteLine("Login completed succesfuly.", "information");
             }
-            if (this._chatCommands.Contains(cmd))
+            else
             {
-                throw new ArgumentException($"Command {cmd.GetType().Name} already registered.");
+                Debug.WriteLine("Login failed.", "information");
             }
-            this._chatCommands.Add(cmd);
+        }
+
+        private void SignalRControllerOnNewBroadcastHandler(string message, string sender)
+        {
+        }
+
+        private void SignalRControllerOnNewMessageHandler(string message, string sender)
+        {
+        }
+
+        internal void NewInput(string input)
+        {
+            input = input.Trim();
+            if (input[0] == '/')
+            {
+                if (input.Length < 2)
+                {
+                    return;
+                }
+
+                var args = input.Split(' ').Skip(1);
+                var command = new string(input.Skip(1).TakeWhile(c => c != ' ').ToArray());
+                IChatCommand cmd = null;
+
+                foreach (IChatCommand chatCommand in this._chatCommands)
+                {
+                    if (
+                        chatCommand.CommandAliases.Any(
+                                       s => string.Equals(s, command, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        cmd = chatCommand;
+                        break;
+                    }
+                }
+                cmd.Invoke(args.ToArray());
+            }
+        }
+
+        private void RegisterCommands(params IChatCommand[] commands)
+        {
+            foreach (IChatCommand cmd in commands)
+            {
+                this._chatCommands.Add(cmd);
+            }
         }
     }
 }
