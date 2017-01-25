@@ -4,7 +4,7 @@ using ChatroClient.Annotations;
 
 namespace ChatroClient
 {
-    public class ChatroTabItem : INotifyPropertyChanged
+    public class CustomTabItem : INotifyPropertyChanged
     {
         private string _tabContent;
 
