@@ -1,4 +1,4 @@
-﻿namespace ChatroClient.Views
+﻿namespace ChatroClient
 {
     public enum LoginResult
     {
