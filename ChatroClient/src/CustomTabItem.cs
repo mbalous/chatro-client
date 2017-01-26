@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ChatroClient.Annotations;
 
@@ -19,6 +20,8 @@ namespace ChatroClient
                 OnPropertyChanged(nameof(this.TabContent));
             }
         }
+
+        public Guid UserGuid { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
