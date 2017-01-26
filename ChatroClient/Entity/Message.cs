@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChatroClient
+namespace ChatroClient.Entity
 {
     internal class Message
     {
