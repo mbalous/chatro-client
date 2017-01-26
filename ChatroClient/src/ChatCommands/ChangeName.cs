@@ -1,35 +1,20 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace ChatroClient.ChatCommands
 {
-    [CommandArgument(Name = "Name")]
-    internal class ChangeName : IChatCommand
+    internal class ChangeName : ChatCommand<ChatroClient.ChangeName>
     {
-        public uint ArgumentCount { get; set; } = 1;
-        public bool ServerInvoke { get; set; } = true;
-    }
+        public override string[] CommandAliases { get; } = {"name", "changename"};
+        public override uint ArgumentCount { get; } = 1;
+        public override bool ServerInvoke { get; } = true;
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    internal class CommandArgumentAttribute : Attribute
-    {
-        public string Name { get; set; }
-    }
-
-
-    public static class AttributeHelper
-    {
-        public static TValue GetPropertyAttributeValue<T, TOut, TAttribute, TValue>(
-            Expression<Func<T, TOut>> propertyExpression,
-            Func<TAttribute, TValue> valueSelector)
-            where TAttribute : Attribute
+        public override void Invoke(params string[] args)
         {
-            MemberExpression expression = (MemberExpression) propertyExpression.Body;
-            PropertyInfo propertyInfo = (PropertyInfo) expression.Member;
-            TAttribute att = propertyInfo.GetCustomAttributes(typeof(TAttribute), true).FirstOrDefault() as TAttribute;
-            return att != null ? valueSelector(att) : default(TValue);
+            this.Func.Invoke(args[0]);
+        }
+
+        public ChangeName(ChatroClient.ChangeName func) : base(func)
+        {
         }
     }
 }

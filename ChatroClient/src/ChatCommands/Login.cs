@@ -5,9 +5,9 @@ namespace ChatroClient.ChatCommands
 {
     internal class Login : ChatCommand<LoginDelegate>
     {
-        public override string[] CommandAliases { get; set; } = {"login"};
-        public override uint ArgumentCount { get; set; } = 2;
-        public override bool ServerInvoke { get; set; } = true;
+        public override string[] CommandAliases { get; } = {"login"};
+        public override uint ArgumentCount { get; } = 2;
+        public override bool ServerInvoke { get; } = true;
 
         public override void Invoke(params string[] args)
         {
